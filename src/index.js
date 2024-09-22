@@ -515,7 +515,7 @@ app.post(
       // Verificar si ya existe un perfil con el mismo username para el usuario autenticado
       const existingProfile = await Profile.findOne({
         userId: req.user.userId,
-        username,
+        name,
       });
       if (existingProfile) {
         return res.status(400).json({
