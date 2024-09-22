@@ -3,7 +3,7 @@ const API_KEY = process.env.API_KEY; // La API Key para validar las solicitudes
 const SECRET_KEY = process.env.SECRET_KEY; // Clave secreta para JWT
 
 // Middleware para validar la API Key
-export function validateApiKey(req, res, next) {
+function validateApiKey(req, res, next) {
   const apiKey = req.headers["x-api-key"];
   if (apiKey === API_KEY) {
     next();
@@ -12,7 +12,7 @@ export function validateApiKey(req, res, next) {
   }
 }
 // Middleware para autenticar el token temporal (JWT)
-export function authenticateResetToken(req, res, next) {
+function authenticateResetToken(req, res, next) {
   const token = req.headers["authorization"]?.split(" ")[1]; // Obtener el token del header 'Authorization'
 
   if (!token) {
@@ -31,7 +31,7 @@ export function authenticateResetToken(req, res, next) {
 }
 
 // Middleware para autenticar el token JWT
-export function authenticateToken(req, res, next) {
+function authenticateToken(req, res, next) {
   const authHeader = req.headers["authorization"];
   const token = authHeader?.split(" ")[1];
 
@@ -45,7 +45,7 @@ export function authenticateToken(req, res, next) {
 }
 
 // Middleware para verificar que el profile sea requerido
-export function requireProfile(req, res, next) {
+function requireProfile(req, res, next) {
   const profileId = req.query.profile || req.params.profileId;
   if (!profileId) {
     return res
@@ -54,3 +54,5 @@ export function requireProfile(req, res, next) {
   }
   next();
 }
+
+module.exports = {requireProfile, authenticateToken, authenticateResetToken, validateApiKey};

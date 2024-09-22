@@ -6,12 +6,12 @@ const SECRET_KEY = process.env.SECRET_KEY; // Clave secreta para JWT
 sgMail.setApiKey(process.env.SENDGRID_API_KEY); // Configurar la API Key de SendGrid desde las variables de entorno
 
 // Función para generar un token JWT
-export function generateToken(userId) {
+function generateToken(userId) {
   return jwt.sign({ userId }, SECRET_KEY, { expiresIn: "1h" });
 }
 
 // Función para obtener parámetros comunes de la solicitud
-export async function getProfileParams(req, Profile) {
+async function getProfileParams(req, Profile) {
   const profileId = req.query.profile || req.params.profileId;
   const profile = await Profile.findOne({
     _id: profileId,
@@ -24,7 +24,7 @@ export async function getProfileParams(req, Profile) {
 }
 
 // Función general para hacer solicitudes a la API IPTV
-export async function getFromApi(
+async function getFromApi(
   apiUrl,
   username,
   password,
@@ -45,7 +45,7 @@ export async function getFromApi(
 // ----------------------------------- Registro -----------------------------------
 
 // Función para generar un código de verificación de 6 dígitos único
-export async function generateUniqueVerificationCode(User) {
+async function generateUniqueVerificationCode(User) {
   let code;
   let userWithSameCode;
 
@@ -57,7 +57,7 @@ export async function generateUniqueVerificationCode(User) {
   return code;
 }
 
-export async function sendEmail(to, content, messageType = "verify") {
+async function sendEmail(to, content, messageType = "verify") {
   // Definir el asunto y el contenido del correo según el tipo de mensaje
   let subject, messageContent;
 
@@ -116,3 +116,6 @@ export async function sendEmail(to, content, messageType = "verify") {
     throw new Error("Error al enviar el correo");
   }
 }
+
+
+module.exports = {generateToken, getProfileParams, getFromApi, generateUniqueVerificationCode, sendEmail};
