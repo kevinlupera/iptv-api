@@ -66,7 +66,7 @@ function generateToken(userId) {
 // Middleware para autenticar el token JWT
 function authenticateToken(req, res, next) {
     const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
+    const token = authHeader?.split(' ')[1];
 
     if (token == null) return res.sendStatus(401);
 
@@ -123,8 +123,6 @@ async function generateUniqueVerificationCode() {
 }
 
 async function sendEmail(to, content, messageType = "verify") {
-    const currentDate = new Date().toUTCString(); // Fecha actual en formato GMT
-
     // Definir el asunto y el contenido del correo según el tipo de mensaje
     let subject, messageContent;
 
@@ -269,7 +267,7 @@ app.post('/verify', validateApiKey, async (req, res) => {
             return res.status(400).json({ error: 'El código de verificación ha expirado. Por favor, solicita uno nuevo.' });
         }
 
-        // Si todo está correcto, marcar la cuenta como verificada
+        // Si es correcto, marcar la cuenta como verificada
         user.isVerified = true;
         user.verificationToken = null;
         user.verificationExpires = null;

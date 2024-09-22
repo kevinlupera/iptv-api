@@ -1,2 +1,9 @@
 # http
-GET http://localhost:3000
+POST http://localhost:3001/register
+Content-Type: application/json
+header: x-api-key:teveplay
+
+{
+  "email": "test@gmail.com",
+  "password": "12345678"
+}
